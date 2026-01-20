@@ -22,20 +22,18 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.9.0/ethers.umd.min.js"></script>
 
-    <!-- Farcaster Mini App SDK -->
+    <!-- Farcaster Mini App SDK (non-blocking) -->
     <script type="module">
-        import { sdk } from 'https://esm.sh/@farcaster/miniapp-sdk';
-        window.farcasterSdk = sdk;
-
-        // Initialize SDK and signal ready when page loads
-        window.addEventListener('load', async () => {
+        (async () => {
             try {
+                const { sdk } = await import('https://esm.sh/@farcaster/miniapp-sdk');
+                window.farcasterSdk = sdk;
                 await sdk.actions.ready();
                 console.log('Farcaster Mini App ready');
             } catch (e) {
-                console.log('Not running in Farcaster client');
+                console.log('Not in Farcaster client or SDK failed:', e.message);
             }
-        });
+        })();
     </script>
 </head>
 <body>
